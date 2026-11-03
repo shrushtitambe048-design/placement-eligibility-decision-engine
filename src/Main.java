@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -23,13 +22,7 @@ public class Main {
                 0,
                 2026);
 
-        boolean percentagePass = candidate.getPercentage() >= job.getMinimumPercentage();
-
-        boolean backlogPass = candidate.getBacklogs() <= job.getMaximumBacklogs();
-
-        boolean yearPass = candidate.getGraduationYear() == job.getRequiredGraduationYear();
-
-        boolean eligible = percentagePass && backlogPass && yearPass;
+        EligibilityChecker checker = new EligibilityChecker();
 
         System.out.println("================================");
         System.out.println("PLACEMENT ELIGIBILITY RESULT");
@@ -39,25 +32,10 @@ public class Main {
         System.out.println("Candidate : " + candidate.getName());
         System.out.println("Company   : " + job.getCompany());
         System.out.println("Role      : " + job.getRole());
+
         System.out.println();
 
-        if (percentagePass) {
-            System.out.println("Percentage      : PASS");
-        } else {
-            System.out.println("Percentage      : FAIL");
-        }
-
-        if (backlogPass) {
-            System.out.println("Backlogs        : PASS");
-        } else {
-            System.out.println("Backlogs        : FAIL");
-        }
-
-        if (yearPass) {
-            System.out.println("Graduation Year : PASS");
-        } else {
-            System.out.println("Graduation Year : FAIL");
-        }
+        boolean eligible = checker.evaluate(candidate, job);
 
         System.out.println();
 
