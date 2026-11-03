@@ -4,38 +4,82 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // Read candidate details
         String name = scanner.next();
         double percentage = scanner.nextDouble();
         int backlogs = scanner.nextInt();
         int graduationYear = scanner.nextInt();
 
+        int skillCount = scanner.nextInt();
+        String[] skills = new String[skillCount];
+
+        for (int i = 0; i < skillCount; i++) {
+            skills[i] = scanner.next();
+        }
+
         Candidate candidate = new Candidate(
                 name,
                 percentage,
                 backlogs,
-                graduationYear);
+                graduationYear,
+                skills);
 
-        Job job = new Job(
-                "Infosys",
-                "Java Developer",
-                65.0,
-                0,
-                2026);
+        // Read number of jobs and create jobs array
+        int jobCount = scanner.nextInt();
+        Job[] jobs = new Job[jobCount];
+
+        for (int i = 0; i < jobCount; i++) {
+            String company = scanner.next();
+            String role = scanner.next();
+            double minPercentage = scanner.nextDouble();
+            int maxBacklogs = scanner.nextInt();
+            int reqGradYear = scanner.nextInt();
+
+            int reqSkillCount = scanner.nextInt();
+            String[] reqSkills = new String[reqSkillCount];
+            for (int j = 0; j < reqSkillCount; j++) {
+                reqSkills[j] = scanner.next();
+            }
+
+            jobs[i] = new Job(
+                    company,
+                    role,
+                    minPercentage,
+                    maxBacklogs,
+                    reqGradYear,
+                    reqSkills);
+        }
+
+        // Display Available Jobs
+        System.out.println();
+        System.out.println("AVAILABLE JOBS");
+
+        for (int i = 0; i < jobs.length; i++) {
+            System.out.println(
+                    (i + 1) + ". " +
+                            jobs[i].getCompany() +
+                            " - " +
+                            jobs[i].getRole());
+        }
+
+        // Read user's job selection dynamically
+        int selectedJobNumber = scanner.nextInt();
+        Job selectedJob = jobs[selectedJobNumber - 1];
 
         EligibilityChecker checker = new EligibilityChecker();
 
+        System.out.println();
         System.out.println("================================");
         System.out.println("PLACEMENT ELIGIBILITY RESULT");
         System.out.println("================================");
         System.out.println();
 
         System.out.println("Candidate : " + candidate.getName());
-        System.out.println("Company   : " + job.getCompany());
-        System.out.println("Role      : " + job.getRole());
-
+        System.out.println("Company   : " + selectedJob.getCompany());
+        System.out.println("Role      : " + selectedJob.getRole());
         System.out.println();
 
-        boolean eligible = checker.evaluate(candidate, job);
+        boolean eligible = checker.evaluate(candidate, selectedJob);
 
         System.out.println();
 
